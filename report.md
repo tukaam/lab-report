@@ -401,7 +401,7 @@ set USER_FILE /home/ram/wrk/unames.txt
 set VERBOSE true
 run
 ```
-
+![smtp_enmu metasploitable](image15.png)
 ---
 
 ## 6. Post-Exploitation Insights
