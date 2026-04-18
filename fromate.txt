@@ -1,0 +1,39 @@
+﻿ 
+ðŸ§ª Final Project Assignment
+Project Title: Vulnerability Assessment & Exploitation of Metasploitable 2
+Assignment No.: Final Project Submission Format: DOCX or PDF
+
+ðŸš¨ Objective
+Perform a full-scale Vulnerability Assessment and ***** Testing operation on Metasploitable 2 using Kali Linux. Your task is to scan, enumerate, exploit, and document your findings in a structured project report.
+ðŸ" Assessment Instructions
+You are required to:
+* Identify open services and ports on the target machine.
+* Enumerate detailed information about running services and possible weak configurations.
+* Exploit at least 2 critical vulnerabilities using any suitable tools or techniques from the course.
+* Gain shell access or sensitive system information to demonstrate successful exploitation.
+* Document the vulnerabilities, attack vectors, and exploitation outcomes.
+* Mention the risk level and suggest remediation steps for each exploited vulnerability.
+ðŸ"" Report Must Include
+1. Project Title Page
+2. Objective of the Assessment
+3. Environment Setup & Tools Used
+4. Scanning Results
+5. Enumeration Techniques Applied
+6. Exploitation Details (with screenshots)
+7. Post-Exploitation Insights (if any)
+8. Summary of Identified Vulnerabilities
+9. Fix Recommendations
+10. Conclusion
+11. References (if used)
+ðŸ§· Rules
+* Only perform attacks on Metasploitable 2 in a controlled lab environment.
+* Screenshots are mandatory as proof of work.
+* Plagiarism or copied reports will be rejected.
+* Report should reflect your understanding and effort.
+* Use AI tools only for doubt-solving; not for generating content.
+ðŸ" File Naming Format
+CopyEdit
+FinalProject_YourName_BatchName.pdf
+
+Tip: Ensure all screenshots are clear and labeled (tool, command, target, and outcome).
+a
